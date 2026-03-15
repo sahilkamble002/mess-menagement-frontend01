@@ -10,7 +10,7 @@ const AdminComplaintsScreen = () => {
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/v1/complaint/complaints');
+        const res = await axios.get('/api/v1/complaint/complaints');
         setComplaints(res.data); // Adjust if response is different
       } catch (err) {
         console.error('Error fetching complaints:', err);
