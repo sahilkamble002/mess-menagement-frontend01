@@ -7,7 +7,7 @@ import food6 from '../assets/images/food6.jpg';
 import food7 from '../assets/images/food7.webp';
 import food8 from '../assets/images/food8.jpeg';
 import '../assets/style.css';
-import FeedbackList from './Feedback/FeedbackList';
+import FeedbackList from './feedback/FeedbackList';
 import ContactUs from './ContactUs';
 
 const slides = [
@@ -20,8 +20,6 @@ const slides = [
   { img: food7, text: 'Quality food, served with love.' },
   { img: food8, text: 'Quality food, served with love.' }
 ];
-
-import '../assets/style.css';
 
 const Content = () => {
   return (
