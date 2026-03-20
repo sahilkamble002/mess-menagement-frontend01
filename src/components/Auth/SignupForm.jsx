@@ -22,20 +22,39 @@ const SignupForm = () => {
       // Post request to your backend to register the student
       const response = await axios.post('/api/v1/student/register', data, { withCredentials: true });
       console.log('Form submitted successfully:', response.data);
+
+      const student = response.data?.data?.student;
+      const accessToken = response.data?.data?.accessToken;
+      const refreshToken = response.data?.data?.refreshToken;
+
+      if (!student) {
+        throw new Error('Signup succeeded but no student data was returned.');
+      }
       
       setSuccessMessage("Signup successful! Redirecting...");
       setServerError(null);
 
       // Store user data and tokens in cookies
-      Cookies.set('user', JSON.stringify(response.data.data.student));
-      Cookies.set('accessToken', response.data.data.accessToken);
-      Cookies.set('refreshToken', response.data.data.refreshToken);
+      Cookies.set('user', JSON.stringify(student), { expires: 1 });
+
+      if (accessToken) {
+        Cookies.set('accessToken', accessToken, { expires: 1 });
+      }
+
+      if (refreshToken) {
+        Cookies.set('refreshToken', refreshToken, { expires: 1 });
+      }
 
       // Redirect to user profile page after a short delay
       setTimeout(() => navigate('/student-profile'), 2000);
     } catch (error) {
       console.error('Error submitting form:', error);
-      setServerError(error.response?.data?.message || "Signup failed. Please try again.");
+      setServerError(
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.message ||
+        "Signup failed. Please try again."
+      );
     }
   };
 
